@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Teni</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --midnight: #0a0e17;
+            --text-white: #ffffff;
+            --accent-red: #ff4d4d;
+            --soft-pink: #f0a1a1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevent scrolling during intro */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Initial Start Button (Required for Audio/Animation flow) */
+        #start-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .primary-btn {
+            background: none;
+            border: 1px solid var(--soft-pink);
+            color: var(--soft-pink);
+            padding: 15px 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        .primary-btn:hover {
+            background: var(--soft-pink);
+            color: var(--bg-dark);
+        }
+
+        /* Container for all scenes */
+        #main-container {
+            width: 90%;
+            max-width: 600px;
+            display: none;
+        }
+
+        .scene {
+            display: none;
+            animation: fadeIn 2s forwards;
+        }
+
+        h1, .highlight {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .fade-text {
+            opacity: 0;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Typing Cursor Effect */
+        .typing::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Floating Hearts */
+        .heart {
+            position: fixed;
+            color: var(--accent-red);
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: -1;
+            animation: float 5s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(240, 161, 161, 0.1);
+        }
+
+        .final-sig {
+            margin-top: 30px;
+            font-style: italic;
+            color: var(--soft-pink);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-overlay">
+        <p style="margin-bottom: 20px; font-weight: 200; letter-spacing: 2px;">00:00 — It’s your day now 🎉</p>
+        <button class="primary-btn" onclick="startExperience()">Tap to open Teni's gift</button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-container">
+        <div id="scene1" class="scene">
+            <p class="fade-text" id="line1">Hey Teni...</p>
+            <p class="fade-text" id="line2" style="font-weight: 200;">Today isn’t just another day.</p>
+        </div>
+
+        <div id="scene2" class="scene">
+            <p id="typing-area" class="typing" style="font-size: 1.3rem; min-height: 100px;"></p>
+        </div>
+
+        <div id="scene3" class="scene">
+            <div class="card">
+                <p style="margin-bottom: 15px;">You’re strong… even when you don’t say it.</p>
+                <p style="margin-bottom: 15px;">You keep going, even when things aren’t easy.</p>
+                <p>And honestly… that’s something I admire about you 🫂</p>
+            </div>
+        </div>
+
+        <div id="scene4" class="scene">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">Happy Birthday, Teni 🤍🎉</h1>
+            <p style="font-weight: 300;">I hope today reminds you how special you are…<br>not just to the world, but to me too.</p>
+        </div>
+
+        <div id="scene5" class="scene">
+            <p style="font-weight: 300; line-height: 2;">
+                Maybe we’re not together right now…<br>
+                Maybe it’s just messages and moments…<br>
+                But I won’t lie… <span class="highlight">you mean something to me.</span>
+            </p>
+            <button class="primary-btn" style="margin-top: 40px;" id="interact-btn" onclick="showSurprise()">Tap this...</button>
+        </div>
+
+        <div id="scene6" class="scene">
+            <p style="font-size: 1.8rem;" class="highlight">Enjoy your day, Teni 😌</p>
+            <p class="final-sig">— Frank</p>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        
+        function startExperience() {
+            document.getElementById('start-overlay').style.display = 'none';
+            document.getElementById('main-container').style.display = 'block';
+            music.play();
+            runStory();
+            createHearts();
+        }
+
+        async function runStory() {
+            // Scene 1
+            showScene('scene1');
+            await wait(1000);
+            fadeIn('line1');
+            await wait(2500);
+            fadeIn('line2');
+            await wait(3000);
+
+            // Scene 2: Typing
+            hideScene('scene1');
+            showScene('scene2');
+            await typeMessage("typing-area", "It’s the day someone special was brought into this world… And somehow… that person found her way into my life 😌");
+            await wait(3000);
+
+            // Scene 3: Appreciation
+            hideScene('scene2');
+            showScene('scene3');
+            await wait(5000);
+
+            // Scene 4: Birthday Hit
+            hideScene('scene3');
+            showScene('scene4');
+            confettiEffect();
+            await wait(5000);
+
+            // Scene 5: Personal
+            hideScene('scene4');
+            showScene('scene5');
+        }
+
+        function showSurprise() {
+            confettiEffect();
+            const btn = document.getElementById('interact-btn');
+            btn.innerHTML = "I’m really glad you exist… and I’m even more glad I know you ❤️";
+            btn.disabled = true;
+            btn.style.border = "none";
+            
+            setTimeout(() => {
+                hideScene('scene5');
+                showScene('scene6');
+            }, 5000);
+        }
+
+        // Helpers
+        function wait(ms) { return new Promise(res => setTimeout(res, ms)); }
+        
+        function showScene(id) { document.getElementById(id).style.display = 'block'; }
+        
+        function hideScene(id) { document.getElementById(id).style.animation = 'fadeIn 1s reverse'; 
+                                 setTimeout(() => { document.getElementById(id).style.display = 'none'; }, 1000); }
+
+        function fadeIn(id) { document.getElementById(id).style.opacity = '1'; document.getElementById(id).style.transition = '2s'; }
+
+        async function typeMessage(id, text) {
+            const el = document.getElementById(id);
+            for(let char of text) {
+                el.innerHTML += char;
+                await wait(50);
+            }
+        }
+
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 600);
+        }
+
+        function confettiEffect() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ffffff', '#ff4d4d', '#f0a1a1']
+            });
+        }
+    </script>
+</body>
+</html>
+  
